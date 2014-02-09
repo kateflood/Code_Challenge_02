@@ -1,4 +1,4 @@
-require 'spec_helper'
+require_relative 'spec_helper'
 
 # First, define methods used to create the test files.
 # We create the test files here
