@@ -1,3 +1,5 @@
+
+require 'pry'
 require 'spec_helper'
 
 # First, define methods used to create the test files.
@@ -5,8 +7,8 @@ require 'spec_helper'
 #   1) so that the test can be run on its own and
 #   2) so the contents of the file are clear
 
-def create_test_file (filename)
-  File.open(filename, "w") do |f|
+def create_test_file(filename)
+  File.open(filename, "w+") do |f|
     5.times  {f.puts "Mr. Jones"}
     6.times  {f.puts "Miss Smith"}
     4.times  {f.puts "Mrs. Wesson"}
@@ -17,9 +19,9 @@ def create_test_file (filename)
  end
 end
 
-def create_prefix_expected_file (filename)
+def create_prefix_expected_file(filename)
   # Note sort order - by count, not by word
-  File.open(filename, "w") do |f|
+  File.open(filename, "w+") do |f|
     f.puts "Dr. 10"
     f.puts "Miss 6"
     f.puts "Mr. 5"
@@ -30,8 +32,8 @@ def create_prefix_expected_file (filename)
   end
 end
 
-def create_suffix_expected_file (filename)
-  File.open(filename, "w") do |f|
+def create_suffix_expected_file(filename)
+  File.open(filename, "w+") do |f|
     f.puts "Roberts 10"
     f.puts "Smith 6"
     f.puts "Jones 5"
@@ -43,7 +45,6 @@ def create_suffix_expected_file (filename)
 end
 
 describe "analyze" do
-
   # Set up the files need for the specifications
   # put them down in the spec folder so they don't clutter the project root folder
 
@@ -55,7 +56,7 @@ describe "analyze" do
 
   # clean up after ourselves
 
-  after(:all) do
+  after :all do
     File.delete 'spec/testfile.txt'
     File.delete 'spec/expected_prefixes.txt'
     File.delete 'spec/expected_suffixes.txt'
@@ -65,8 +66,7 @@ describe "analyze" do
   # specify what the options and STDIN and STDOUT are supposed to do
 
   it "reads a file and prints a hash of prefixes when given the -p option" do
-    binding.pry
-    `ruby lib/analyze.rb -p <spec/testfile.txt >spec/histogram.txt`
+    `ruby lib/analyze.rb -p <spec/testfile.txt > spec/histogram.txt`
     IO.read('spec/histogram.txt').should == IO.read('spec/expected_prefixes.txt')
   end
 
@@ -74,4 +74,5 @@ describe "analyze" do
     `ruby lib/analyze.rb -s <spec/testfile.txt >spec/histogram.txt`
     IO.read('spec/histogram.txt').should == IO.read('spec/expected_suffixes.txt')
   end
+
 end
