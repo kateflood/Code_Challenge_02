@@ -16,6 +16,7 @@ def create_test_file(filename)
     1.times  {f.puts "Jane Wintermute"}
     2.times  {f.puts "Frank Franklin"}
     3.times  {f.puts "Darleen Washington"}
+#    3.times  {f.puts nil}
  end
 end
 
@@ -66,7 +67,7 @@ describe "analyze" do
   # specify what the options and STDIN and STDOUT are supposed to do
 
   it "reads a file and prints a hash of prefixes when given the -p option" do
-    `ruby lib/analyze.rb -p <spec/testfile.txt > spec/histogram.txt`
+    `ruby lib/analyze.rb -p <spec/testfile.txt> spec/histogram.txt`
     IO.read('spec/histogram.txt').should == IO.read('spec/expected_prefixes.txt')
   end
 
