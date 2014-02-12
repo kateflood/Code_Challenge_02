@@ -1,28 +1,25 @@
 require "pry"
-#create Hash to store patterns and counts - create with default
-histogram_hash = Hash.new(0)
 
-#Add case statement to check to see if you are looking for prefixes or suffixes
 case ARGV[0]
   when '-p'
-    # set up some regular expression for prefixes
-    pattern = %r{^\S+}
+    pattern = /^\S+/
   when '-s'
-    # set up some regular expression for suffixes
-    pattern = %r{\S+$}
+    pattern = /\S+$/
   else
     puts "unknown option"
     puts "usage: analyze.rb -p | -s < input_file > output_file"
     exit
 end
 
-ARGV.shift
+hist_o_hash = Hash.new(0)
+ARGV.clear
+#ARGF.readlines.each { |line| hist_o_hash[pattern.match(line)[0]] += 1 }
 
-ARGF.readlines.each { |line| histogram_hash[pattern.match(line)[0]] += 1 }
+while line = gets 
+  hist_o_hash[pattern.match(line)[0]] += 1
+end
 
-#sort hash from largest to smallest value
-histogram_hash = histogram_hash.sort_by { |a, b| b}
-histogram_hash.reverse!
+hist_o_hash = hist_o_hash.sort_by { |a, b| b}
+hist_o_hash.reverse!
 
-#print hash to a new file called histogram with each key and value on separate line
-histogram_hash.each { |k,v| puts "#{k} #{v}" }
+hist_o_hash.each { |k,v| puts "#{k} #{v}" }
